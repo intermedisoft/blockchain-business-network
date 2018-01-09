@@ -1,0 +1,79 @@
+namespace com.depa.blockchain.assets
+import com.depa.blockchain.core.*
+
+asset ProtectedAsset identified by assetId {
+  o String assetId
+  o String[] authorized optional
+  --> Patient patient
+  --> HealthCareProvider healthCareProvider
+}
+
+asset AssetFromService extends ProtectedAsset {
+  --> ServiceHistory visit
+  --> Doctor doctorId optional
+}
+
+asset ServiceHistory extends ProtectedAsset {
+  o String serviceId
+  o DateTime dateTimeService
+  o DateTime dateTimeUpdate
+  o String insuranceId
+}
+
+asset CheckupHistory extends AssetFromService {
+  o String checkupHistoryId
+  o String dateTimeServe
+  o String pulse
+  o String pressure
+  o String cbc_wbc
+  o String hct
+  o String hb
+  o String ph
+  o String ua_wbc
+  o String rbc
+  o String alm
+  o String sugar
+  o String spgr
+  o String fbs
+  o String bun
+  o String creatinine
+  o String uric
+  o String chlt
+  o String trig
+  o String hdl
+  o String ldl
+  o String alk
+  o String sgot
+  o String sgpt
+  o String hba1c
+  o String eos
+  o String pmn
+  o String lym
+  o String mono
+  o String dateTimeUpdate
+}
+
+asset DiagHistory extends AssetFromService {
+  o String diagId
+  o DateTime dateTimeService
+  o String diagType
+  o String diagName
+  o DateTime dateTimeUpdate
+}
+
+asset ProcedureHistory extends AssetFromService {
+  o String procedureId
+  o DateTime dateTimeService
+  o String opType
+  o String procedureName
+  o DateTime dateTimeUpdate
+}
+
+asset DrugHistory extends AssetFromService {
+  o String drugCode
+  o String drugName
+  o String dosage
+  o String unit
+  o String frequency
+  o DateTime dateTimeUpdate
+}

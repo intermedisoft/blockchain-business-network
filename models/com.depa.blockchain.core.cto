@@ -1,0 +1,166 @@
+namespace com.depa.blockchain.core
+import com.depa.blockchain.assets.*
+
+participant Patient identified by patientId {
+  o String patientId
+  o String prename
+  o String name
+  o String surname
+  o DateTime dob optional
+  o String bloodGroup optional
+  o String sex optional
+  o String marriage optional
+  o String nation optional
+  o String race optional
+  o String occupation optional
+  o Double height optional
+  o Double weight optional
+  o String scars optional
+  o String specialConditions optional
+  o String mobilePhone optional
+  o String emailAddress optional
+  o String liveHomeId optional
+  o String censusHomeId optional
+  o DateTime dateTimeUpdate
+  o String picture optional
+
+  o Food[] foods
+  o Exercise[] exercises
+  o Lifestyle[] lifestyles
+
+  --> HealthCareProvider[] pendingHcpPermissionRequest optional
+  --> HealthCareProvider[] authorizedHcpPermissionRequest optional
+}
+
+participant HealthCareProvider identified by healthCareProviderId {
+  o String healthCareProviderId
+  o String healthCareProviderName
+  o String erPhone optional
+  o String primaryCare optional
+  o String dateTimeUpdate
+}
+
+participant Doctor identified by doctorId {
+  o String doctorId
+  o String prename
+  o String name
+  o String surname
+  o String phone optional
+  o String mobilePhone optional
+  o String specialty optional
+  o DateTime dateTimeUpdate
+  o String sex optional
+  o String role optional
+  o String picture optional
+
+  --> HealthCareProvider[] healthCareProvider
+}
+
+concept Food {
+  o String foodId
+  o String amount
+  o String unitId
+  o String calories
+  o String picture
+  o String detail
+}
+
+concept Lifestyle {
+  o String lifeStyleId
+  o String alcoholism
+  o String drinkOfWeek
+  o String smoking
+  o String packsPerDay
+  o DateTime dateTimeUpdate
+}
+
+concept Exercise {
+  o String exerciseId
+  o String daysPerWeek
+  o String type
+  o String calories
+  o String picture
+}
+
+asset PermissionLog identified by permissionLogId {
+  o String permissionLogId
+  o PermissionType permissionType
+  o DateTime actionDateTime
+
+  --> Patient patient
+  --> HealthCareProvider healthCareProvider
+}
+
+enum PermissionType {
+  o REQUEST
+  o GRANT
+  o DENY
+  o REVOKE
+}
+
+transaction PermissionTransaction {
+  o PermissionType permissionType
+  --> Patient patient
+  --> HealthCareProvider healthCareProvider
+}
+
+event PermissionEvent {
+  --> Patient patient
+  --> HealthCareProvider healthCareProvider
+}
+
+event PermissionRequestEvent extends PermissionEvent {
+
+}
+
+event PermissionGrantedEvent extends PermissionEvent  {
+
+}
+
+event PermissionDeniedEvent extends PermissionEvent  {
+
+}
+
+event PermissionRevokeEvent extends PermissionEvent {
+
+}
+
+transaction CreateServiceHistory {
+  o ServiceHistory protectedAsset
+}
+
+transaction CreateDiagHistory {
+  o DiagHistory protectedAsset
+}
+
+transaction CreateProcedureHistory {
+  o ProcedureHistory protectedAsset
+}
+
+transaction CreateDrugHistory {
+  o DrugHistory protectedAsset
+}
+
+transaction CreateCheckupHistory {
+  o CheckupHistory protectedAsset
+}
+
+transaction UpdateServiceHistory {
+  o ServiceHistory protectedAsset
+}
+
+transaction UpdateDiagHistory {
+  o DiagHistory protectedAsset
+}
+
+transaction UpdateProcedureHistory {
+  o ProcedureHistory protectedAsset
+}
+
+transaction UpdateDrugHistory {
+  o DrugHistory protectedAsset
+}
+
+transaction UpdateCheckupHistory {
+  o CheckupHistory protectedAsset
+}

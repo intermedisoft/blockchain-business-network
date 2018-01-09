@@ -1,0 +1,91 @@
+rule PatientCanReadTheirData {
+  description: "Patient can read their data"
+  participant(p): "com.depa.blockchain.core.Patient"
+  operation: READ, UPDATE
+  resource(r): "com.depa.blockchain.assets.*"
+  condition: (r.patient.getIdentifier() == p.getIdentifier())
+  action: ALLOW
+}
+
+rule HcpCanCreateProtectedAssetForPatient {
+  description: "HCP can create protected asset for patient"
+  participant: "com.depa.blockchain.core.HealthCareProvider"
+  operation: CREATE
+  resource: "com.depa.blockchain.assets.*"
+  action: ALLOW
+}
+
+rule HcpCanReadProtectedAssetsWithAuthorization {
+  description: "HCP can read all patient's data with authorization"
+  participant(p): "com.depa.blockchain.core.HealthCareProvider"
+  operation: READ
+  resource(r): "com.depa.blockchain.assets.*"
+  condition: (r.authorized && r.authorized.indexOf(p.getIdentifier()) > -1)
+  action: ALLOW
+}
+
+rule HcpCanEditOwnProtectedAssetsWithAuthorization {
+  description: "HCP can read all patient's data with authorization"
+  participant(p): "com.depa.blockchain.core.HealthCareProvider"
+  operation: UPDATE
+  resource(r): "com.depa.blockchain.assets.*"
+  condition: (r.authorized && r.authorized.indexOf(p.getIdentifier()) > -1 && r.healthCareProvider.getIdentifier() == p.getIdentifier())
+  action: ALLOW
+}
+
+rule PatientCannotMessWithOtherPatient {
+  description: "Patient cannot mess with HCP general data"
+  participant(p): "com.depa.blockchain.core.Patient"
+  operation: ALL
+  resource(r): "com.depa.blockchain.core.Patient"
+  condition: (p.patientId!=r.patientId)
+  action: DENY
+}
+
+rule PatientCannotMessWithHcpGeneralData {
+  description: "Patient cannot mess with HCP general data"
+  participant: "com.depa.blockchain.core.Patient"
+  operation: CREATE, UPDATE, DELETE
+  resource: "com.depa.blockchain.core.HealthCareProvider"
+  action: DENY
+}
+
+rule HcpCannotMessWithPatientGeneralData {
+  description: "HCP cannot mess with patient general data"
+  participant: "com.depa.blockchain.core.HealthCareProvider"
+  operation: CREATE, DELETE
+  resource: "com.depa.blockchain.core.Patient"
+  action: DENY
+}
+
+rule NoOneCanDeletePermissionLog {
+  description: "No one can remove permission activity log"
+  participant: "com.depa.blockchain.core.HealthCareProvider"
+  operation: DELETE
+  resource: "com.depa.blockchain.core.Patient"
+  action: DENY
+}
+
+rule DefaultCorePackage {
+    description: "ALLOW all participants ALL access to all resources in CORE PACKAGE except rules above"
+    participant: "ANY"
+    operation: ALL
+    resource: "com.depa.blockchain.core.*"
+    action: ALLOW
+}
+
+rule DefaultAssetsPackage {
+    description: "DENY all participants ALL access to all resources in ASSETS PACKAGE except rules above"
+    participant: "ANY"
+    operation: ALL
+    resource: "com.depa.blockchain.assets.*"
+    action: DENY
+}
+
+rule SystemACL {
+  description:  "System ACL to permit all access"
+  participant: "org.hyperledger.composer.system.Participant"
+  operation: ALL
+  resource: "org.hyperledger.composer.system.**"
+  action: ALLOW
+}
