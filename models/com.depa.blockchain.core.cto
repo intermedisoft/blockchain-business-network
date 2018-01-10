@@ -24,9 +24,9 @@ participant Patient identified by patientId {
   o DateTime dateTimeUpdate
   o String picture optional
 
-  o Food[] foods
-  o Exercise[] exercises
-  o Lifestyle[] lifestyles
+  o Food[] foods optional
+  o Exercise[] exercises optional
+  o Lifestyle[] lifestyles optional
 
   --> HealthCareProvider[] pendingHcpPermissionRequest optional
   --> HealthCareProvider[] authorizedHcpPermissionRequest optional

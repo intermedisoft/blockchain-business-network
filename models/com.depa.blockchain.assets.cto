@@ -50,6 +50,8 @@ asset CheckupHistory extends AssetFromService {
   o String pmn
   o String lym
   o String mono
+  o String calcium_score_result
+  o String calcium_score_image
   o String dateTimeUpdate
 }
 
