@@ -145,6 +145,10 @@ transaction CreateCheckupHistory {
   o CheckupHistory protectedAsset
 }
 
+transaction CreateVaccination {
+  o Vaccination protectedAsset
+}
+
 transaction UpdateServiceHistory {
   o ServiceHistory protectedAsset
 }
@@ -163,4 +167,8 @@ transaction UpdateDrugHistory {
 
 transaction UpdateCheckupHistory {
   o CheckupHistory protectedAsset
+}
+
+transaction UpdateVaccination {
+  o Vaccination protectedAsset
 }
