@@ -20,7 +20,7 @@ asset ServiceHistory extends ProtectedAsset {
   o String insuranceId
 }
 
-asset CheckupHistory extends AssetFromService {
+asset CheckupHistory extends ProtectedAsset {
   o String checkupHistoryId
   o String dateTimeServe
   o String pulse
@@ -78,4 +78,11 @@ asset DrugHistory extends AssetFromService {
   o String unit
   o String frequency
   o DateTime dateTimeUpdate
+}
+
+asset Vaccination extends ProtectedAsset {
+  o String vaccineName
+  o String vaccineType
+  o DateTime dateTimeServe
+  o String numberOfBooster optional
 }

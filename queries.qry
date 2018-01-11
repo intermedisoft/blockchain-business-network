@@ -1,15 +1,3 @@
-query listAllPendingPermissionRequest {
-  description: "Get list of pending permission request of patient"
-  statement:
-  	SELECT com.depa.blockchain.core.Patient
-}
-
-query listAllGrantedPermission {
-  description: "List all valid permission grant"
-  statement:
-  	SELECT com.depa.blockchain.core.Patient
-}
-
 query listAllProtectedAssets {
   description: "List all protected assets"
   statement:
@@ -48,5 +36,12 @@ query listAllCheckupHistoryOfPatient {
   description: "Show all checkup history for specified patient"
   statement: 
     SELECT com.depa.blockchain.assets.CheckupHistory
+      WHERE (_$patientIdParam == patient.patientId)
+}
+
+query listAllVaccinationOfPatient {
+  description: "Show all vaccination for specified patient"
+  statement: 
+    SELECT com.depa.blockchain.assets.Vaccination
       WHERE (_$patientIdParam == patient.patientId)
 }
