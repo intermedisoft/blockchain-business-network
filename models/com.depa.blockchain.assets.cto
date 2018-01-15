@@ -17,41 +17,41 @@ asset ServiceHistory extends ProtectedAsset {
   o String serviceId
   o DateTime dateTimeService
   o DateTime dateTimeUpdate
-  o String insuranceId
+  o String insuranceId optional
 }
 
 asset CheckupHistory extends ProtectedAsset {
   o String checkupHistoryId
   o String dateTimeServe
-  o String pulse
-  o String pressure
-  o String cbc_wbc
-  o String hct
-  o String hb
-  o String ph
-  o String ua_wbc
-  o String rbc
-  o String alm
-  o String sugar
-  o String spgr
-  o String fbs
-  o String bun
-  o String creatinine
-  o String uric
-  o String chlt
-  o String trig
-  o String hdl
-  o String ldl
-  o String alk
-  o String sgot
-  o String sgpt
-  o String hba1c
-  o String eos
-  o String pmn
-  o String lym
-  o String mono
-  o String calcium_score_result
-  o String calcium_score_image
+  o String pulse optional
+  o String pressure optional
+  o String cbc_wbc optional
+  o String hct optional
+  o String hb optional
+  o String ph optional
+  o String ua_wbc optional
+  o String rbc optional
+  o String alm optional
+  o String sugar optional
+  o String spgr optional
+  o String fbs optional
+  o String bun optional
+  o String creatinine optional
+  o String uric optional
+  o String chlt optional
+  o String trig optional
+  o String hdl optional
+  o String ldl optional
+  o String alk optional
+  o String sgot optional
+  o String sgpt optional
+  o String hba1c optional
+  o String eos optional
+  o String pmn optional
+  o String lym optional
+  o String mono optional
+  o String calcium_score_result optional
+  o String calcium_score_image optional
   o String dateTimeUpdate
 }
 
