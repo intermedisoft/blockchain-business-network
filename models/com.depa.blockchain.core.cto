@@ -37,23 +37,7 @@ participant HealthCareProvider identified by healthCareProviderId {
   o String healthCareProviderName
   o String erPhone optional
   o String primaryCare optional
-  o String dateTimeUpdate
-}
-
-participant Doctor identified by doctorId {
-  o String doctorId
-  o String prename
-  o String name
-  o String surname
-  o String phone optional
-  o String mobilePhone optional
-  o String specialty optional
   o DateTime dateTimeUpdate
-  o String sex optional
-  o String role optional
-  o String picture optional
-
-  --> HealthCareProvider[] healthCareProvider
 }
 
 concept Food {

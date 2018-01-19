@@ -8,40 +8,40 @@ query listAllServiceHistoryOfPatient {
   description: "Show all service history for specified patient"
   statement: 
     SELECT com.depa.blockchain.assets.ServiceHistory
-      WHERE (_$patientIdParam == patient.patientId)
+      WHERE (_$patientIdParam == patient)
 }
 
 query listAllDiagHistoryOfPatient {
   description: "Show all diagnostic history for specified patient"
   statement: 
     SELECT com.depa.blockchain.assets.DiagHistory
-      WHERE (_$patientIdParam == patient.patientId)
+      WHERE (_$patientIdParam == patient)
 }
 
 query listAllProcedureHistoryOfPatient {
   description: "Show all procedure history for specified patient"
   statement: 
     SELECT com.depa.blockchain.assets.ProcedureHistory
-      WHERE (_$patientIdParam == patient.patientId)
+      WHERE (_$patientIdParam == patient)
 }
 
 query listAllDrugHistoryOfPatient {
   description: "Show all drug history for specified patient"
   statement: 
     SELECT com.depa.blockchain.assets.DrugHistory
-      WHERE (_$patientIdParam == patient.patientId)
+      WHERE (_$patientIdParam == patient)
 }
 
 query listAllCheckupHistoryOfPatient {
   description: "Show all checkup history for specified patient"
   statement: 
     SELECT com.depa.blockchain.assets.CheckupHistory
-      WHERE (_$patientIdParam == patient.patientId)
+      WHERE (_$patientIdParam == patient)
 }
 
 query listAllVaccinationOfPatient {
   description: "Show all vaccination for specified patient"
   statement: 
     SELECT com.depa.blockchain.assets.Vaccination
-      WHERE (_$patientIdParam == patient.patientId)
+      WHERE (_$patientIdParam == patient)
 }

@@ -10,7 +10,6 @@ asset ProtectedAsset identified by assetId {
 
 asset AssetFromService extends ProtectedAsset {
   --> ServiceHistory visit
-  --> Doctor doctorId optional
 }
 
 asset ServiceHistory extends ProtectedAsset {

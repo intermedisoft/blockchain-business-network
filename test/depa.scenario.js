@@ -1,12 +1,12 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License");
+ * Licensed under the Apache License, Version 2.0 (the 'License');
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
+ * distributed under the License is distributed on an 'AS IS' BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
@@ -46,7 +46,7 @@ describe('DEPA-Blockchain-Scenario', () => {
     let events;
 
     // This is called before each test is executed.
-    beforeEach(() => {
+    before(() => {
 
         // Initialize an in-memory file system, so we do not write any files to the actual file system.
         BrowserFS.initialize(new BrowserFS.FileSystem.InMemory());
@@ -128,13 +128,66 @@ describe('DEPA-Blockchain-Scenario', () => {
             })
             .then(() => {
                 // Create the assets.
-                const asset1 = factory.newResource('com.depa.blockchain.assets', 'ServiceHistory', 'testServiceHistory:1');
+                const asset1 = factory.newResource('com.depa.blockchain.assets', 'CheckupHistory', 'testCheckupHistory:1');
+                asset1.checkupHistoryId = 'chk0000071';
+                asset1.dateTimeServe = '2016-03-23T15:54:47';
+                asset1.pulse = '81';
+                asset1.pressure = '116/93';
+                asset1.cbc_wbc = '7.2';
+                asset1.hct = '43.6';
+                asset1.hb = '14.8';
+                asset1.ph = '6';
+                asset1.rbc = '5.07';
+                asset1.sugar = 'Negative';
+                asset1.spgr = '1.03';
+                asset1.fbs = '110';
+                asset1.bun = '9';
+                asset1.creatinine = '1.03';
+                asset1.uric = '';
+                asset1.chlt = '222';
+                asset1.trig = '278';
+                asset1.hdl = '';
+                asset1.ldl = '';
+                asset1.sgot = '59';
+                asset1.sgpt = '26';
+                asset1.eos = '0';
+                asset1.lym = '34';
+                asset1.mono = '11';
+                asset1.dateTimeUpdate = '2016-03-23T15:54:47';
+                asset1.assetId = 'assetId00071';
                 asset1.patient = factory.newRelationship('com.depa.blockchain.core', 'Patient', 'alice@phr-app.com');
                 asset1.healthCareProvider = factory.newRelationship('com.depa.blockchain.core', 'HealthCareProvider', 'hcp:bpk');
-                const asset2 = factory.newResource('com.depa.blockchain.assets', 'ServiceHistory', 'testServiceHistory:2');
+
+                const asset2 = factory.newResource('com.depa.blockchain.assets', 'CheckupHistory', 'testCheckupHistory:2');
+                asset2.checkupHistoryId = 'chk0000072';
+                asset2.dateTimeServe = '2016-03-23T15:54:47';
+                asset2.pulse = '81';
+                asset2.pressure = '116/93';
+                asset2.cbc_wbc = '7.2';
+                asset2.hct = '43.6';
+                asset2.hb = '14.8';
+                asset2.ph = '6';
+                asset2.rbc = '5.07';
+                asset2.sugar = 'Negative';
+                asset2.spgr = '1.03';
+                asset2.fbs = '110';
+                asset2.bun = '9';
+                asset2.creatinine = '1.03';
+                asset2.uric = '';
+                asset2.chlt = '222';
+                asset2.trig = '278';
+                asset2.hdl = '';
+                asset2.ldl = '';
+                asset2.sgot = '59';
+                asset2.sgpt = '26';
+                asset2.eos = '0';
+                asset2.lym = '34';
+                asset2.mono = '11';
+                asset2.dateTimeUpdate = '2016-03-23T15:54:47';
+                asset2.assetId = 'assetId00072';
                 asset2.patient = factory.newRelationship('com.depa.blockchain.core', 'Patient', 'alice@phr-app.com');
                 asset2.healthCareProvider = factory.newRelationship('com.depa.blockchain.core', 'HealthCareProvider', 'hcp:ss');
-                return businessNetworkConnection.getAssetRegistry('com.depa.blockchain.assets.ServiceHistory')
+                return businessNetworkConnection.getAssetRegistry('com.depa.blockchain.assets.CheckupHistory')
                     .then((assetRegistry) => {
                         assetRegistry.addAll([asset1, asset2]);
                     });
@@ -181,7 +234,7 @@ describe('DEPA-Blockchain-Scenario', () => {
         return useIdentity(aliceIdentity)
             .then(() => {
                 // Get the assets.
-                return businessNetworkConnection.getAssetRegistry('com.depa.blockchain.assets.ServiceHistory')
+                return businessNetworkConnection.getAssetRegistry('com.depa.blockchain.assets.CheckupHistory')
                     .then((assetRegistry) => {
                         return assetRegistry.getAll();
                     });
@@ -197,7 +250,7 @@ describe('DEPA-Blockchain-Scenario', () => {
         return useIdentity(bpkIdentity)
             .then(() => {
                 // Get the assets.
-                return businessNetworkConnection.getAssetRegistry('com.depa.blockchain.assets.ServiceHistory')
+                return businessNetworkConnection.getAssetRegistry('com.depa.blockchain.assets.CheckupHistory')
                     .then((assetRegistry) => {
                         return assetRegistry.getAll();
                     });
@@ -213,7 +266,7 @@ describe('DEPA-Blockchain-Scenario', () => {
         return useIdentity(ssIdentity)
             .then(() => {
                 // Get the assets.
-                return businessNetworkConnection.getAssetRegistry('com.depa.blockchain.assets.ServiceHistory')
+                return businessNetworkConnection.getAssetRegistry('com.depa.blockchain.assets.CheckupHistory')
                     .then((assetRegistry) => {
                         return assetRegistry.getAll();
                     });
@@ -221,6 +274,240 @@ describe('DEPA-Blockchain-Scenario', () => {
             .then((assets) => {
                 // Validate the assets.
                 assets.should.have.lengthOf(0);
+            });
+    });
+
+    it('BPK should be able to request permission to Alice', () => {
+        let requestPermission = factory.newTransaction('com.depa.blockchain.core', 'PermissionTransaction', 'txRequest1');
+        requestPermission.permissionType = 'REQUEST';
+        requestPermission.patient = factory.newRelationship('com.depa.blockchain.core', 'Patient', 'alice@phr-app.com');
+        requestPermission.healthCareProvider = factory.newRelationship('com.depa.blockchain.core', 'HealthCareProvider', 'hcp:bpk');
+
+        return useIdentity(bpkIdentity)
+            .then(() => {
+                return businessNetworkConnection.submitTransaction(requestPermission);
+            }).then(() => {
+                return businessNetworkConnection.getParticipantRegistry('com.depa.blockchain.core.Patient');
+            }).then((participantRegistry) => {
+                return participantRegistry.get('alice@phr-app.com');
+            }).then((alice) => {
+                alice.should.have.property('pendingHcpPermissionRequest').be.lengthOf(1);
+            });
+    });
+
+    it('Alice should be able to grant permission to BPK', () => {
+        let grantPermission = factory.newTransaction('com.depa.blockchain.core', 'PermissionTransaction', 'txRequest2');
+        grantPermission.permissionType = 'GRANT';
+        grantPermission.patient = factory.newRelationship('com.depa.blockchain.core', 'Patient', 'alice@phr-app.com');
+        grantPermission.healthCareProvider = factory.newRelationship('com.depa.blockchain.core', 'HealthCareProvider', 'hcp:bpk');
+
+        return useIdentity(aliceIdentity)
+            .then(() => {
+                return businessNetworkConnection.submitTransaction(grantPermission);
+            })
+            .then(() => {
+                return businessNetworkConnection.getParticipantRegistry('com.depa.blockchain.core.Patient');
+            }).then((participantRegistry) => {
+                return participantRegistry.get('alice@phr-app.com');
+            }).then((alice) => {
+                alice.should.have.property('authorizedHcpPermissionRequest').be.lengthOf(1);
+            });
+    });
+
+    it('BPK should be able to read any Alice\'s assets with her permission', () => {
+        // Use the identity for Alice.
+        return useIdentity(bpkIdentity)
+            .then(() => {
+                // Get the assets.
+                return businessNetworkConnection.getAssetRegistry('com.depa.blockchain.assets.CheckupHistory')
+                    .then((assetRegistry) => {
+                        return assetRegistry.getAll();
+                    });
+            })
+            .then((assets) => {
+                // Validate the assets.
+                assets.should.have.lengthOf(2);
+            });
+    });
+
+    /*it('current Alice status', () => {
+        // Use the identity for Alice.
+        return useIdentity(aliceIdentity)
+            .then(() => {
+                return businessNetworkConnection.getParticipantRegistry('com.depa.blockchain.core.Patient');
+            }).then((participantRegistry) => {
+                return participantRegistry.get('alice@phr-app.com');
+            }).then((alice) => {
+                // console.log(alice);
+                alice.should.ok;
+            });
+    });*/
+
+    it('BPK should be able to run CreateVaccination TX on Alice', () => {
+        let vaccinationAsset = factory.newResource('com.depa.blockchain.assets', 'Vaccination', 'testVaccination:1');
+        vaccinationAsset.vaccineName = 'Vaccine #1';
+        vaccinationAsset.vaccineType = 'VaccineType #1';
+        vaccinationAsset.dateTimeServe = new Date();
+        vaccinationAsset.patient = factory.newRelationship('com.depa.blockchain.core', 'Patient', 'alice@phr-app.com');
+        vaccinationAsset.healthCareProvider = factory.newRelationship('com.depa.blockchain.core', 'HealthCareProvider', 'hcp:bpk');
+
+        let createVaccinationTx = factory.newTransaction('com.depa.blockchain.core', 'CreateVaccination', 'txCreateVaccination1');
+        createVaccinationTx.protectedAsset = vaccinationAsset;
+
+        // Use the identity for Alice.
+        return useIdentity(bpkIdentity)
+            .then(() => {
+                return businessNetworkConnection.submitTransaction(createVaccinationTx);
+            }).then(() => {
+                return businessNetworkConnection.getAssetRegistry('com.depa.blockchain.assets.Vaccination');
+            }).then((assetRegistry) => {
+                return assetRegistry.getAll();
+            }).then((assets) => {
+                assets.should.have.lengthOf(1);
+            });
+    });
+
+    it('Alice should be able to revoke permission of BPK', () => {
+        let grantPermission = factory.newTransaction('com.depa.blockchain.core', 'PermissionTransaction', 'txRequest3');
+        grantPermission.permissionType = 'REVOKE';
+        grantPermission.patient = factory.newRelationship('com.depa.blockchain.core', 'Patient', 'alice@phr-app.com');
+        grantPermission.healthCareProvider = factory.newRelationship('com.depa.blockchain.core', 'HealthCareProvider', 'hcp:bpk');
+
+        return useIdentity(aliceIdentity)
+            .then(() => {
+                return businessNetworkConnection.submitTransaction(grantPermission);
+            })
+            .then(() => {
+                return businessNetworkConnection.getParticipantRegistry('com.depa.blockchain.core.Patient');
+            }).then((participantRegistry) => {
+                return participantRegistry.get('alice@phr-app.com');
+            }).then((alice) => {
+                alice.should.have.property('authorizedHcpPermissionRequest').be.lengthOf(0);
+            });
+    });
+
+    it('BPK should not read any Alice\'s assets without permission', () => {
+        // Use the identity for Alice.
+        return useIdentity(bpkIdentity)
+            .then(() => {
+                // Get the assets.
+                return businessNetworkConnection.getAssetRegistry('com.depa.blockchain.assets.CheckupHistory')
+                    .then((assetRegistry) => {
+                        return assetRegistry.getAll();
+                    });
+            })
+            .then((assets) => {
+                // Validate the assets.
+                assets.should.have.lengthOf(0);
+            });
+    });
+
+    it('SS should be able to request permission to Alice', () => {
+        let requestPermission = factory.newTransaction('com.depa.blockchain.core', 'PermissionTransaction', 'txRequest4');
+        requestPermission.permissionType = 'REQUEST';
+        requestPermission.patient = factory.newRelationship('com.depa.blockchain.core', 'Patient', 'alice@phr-app.com');
+        requestPermission.healthCareProvider = factory.newRelationship('com.depa.blockchain.core', 'HealthCareProvider', 'hcp:ss');
+
+        return useIdentity(bpkIdentity)
+            .then(() => {
+                return businessNetworkConnection.submitTransaction(requestPermission);
+            }).then(() => {
+                return businessNetworkConnection.getParticipantRegistry('com.depa.blockchain.core.Patient');
+            }).then((participantRegistry) => {
+                return participantRegistry.get('alice@phr-app.com');
+            }).then((alice) => {
+                alice.should.have.property('pendingHcpPermissionRequest').be.lengthOf(1);
+            });
+    });
+
+    it('Alice should be able to grant permission to BPK', () => {
+        let grantPermission = factory.newTransaction('com.depa.blockchain.core', 'PermissionTransaction', 'txRequest5');
+        grantPermission.permissionType = 'GRANT';
+        grantPermission.patient = factory.newRelationship('com.depa.blockchain.core', 'Patient', 'alice@phr-app.com');
+        grantPermission.healthCareProvider = factory.newRelationship('com.depa.blockchain.core', 'HealthCareProvider', 'hcp:ss');
+
+        return useIdentity(aliceIdentity)
+            .then(() => {
+                return businessNetworkConnection.submitTransaction(grantPermission);
+            })
+            .then(() => {
+                return businessNetworkConnection.getParticipantRegistry('com.depa.blockchain.core.Patient');
+            }).then((participantRegistry) => {
+                return participantRegistry.get('alice@phr-app.com');
+            }).then((alice) => {
+                alice.should.have.property('authorizedHcpPermissionRequest').be.lengthOf(1);
+            });
+    });
+
+    it('SS should be able to read any Alice\'s vaccination assets with her permission', () => {
+        // Use the identity for Alice.
+        return useIdentity(ssIdentity)
+            .then(() => {
+                // Get the assets.
+                return businessNetworkConnection.getAssetRegistry('com.depa.blockchain.assets.Vaccination')
+                    .then((assetRegistry) => {
+                        return assetRegistry.getAll();
+                    });
+            })
+            .then((assets) => {
+                // Validate the assets.
+                assets.should.have.lengthOf(1);
+            });
+    });
+
+    it('BPK should be able to read any Alice\'s vaccination assets without her permission', () => {
+        // Use the identity for Alice.
+        return useIdentity(bpkIdentity)
+            .then(() => {
+                // Get the assets.
+                return businessNetworkConnection.getAssetRegistry('com.depa.blockchain.assets.Vaccination')
+                    .then((assetRegistry) => {
+                        return assetRegistry.getAll();
+                    });
+            })
+            .then((assets) => {
+                // Validate the assets.
+                assets.should.have.lengthOf(0);
+            });
+    });
+
+    it('BPK should be able to submit late CreateVaccination TX on Alice without her permission', () => {
+        let vaccinationAsset = factory.newResource('com.depa.blockchain.assets', 'Vaccination', 'testVaccination:2');
+        vaccinationAsset.vaccineName = 'Vaccine #2';
+        vaccinationAsset.vaccineType = 'VaccineType #2';
+        vaccinationAsset.dateTimeServe = new Date();
+        vaccinationAsset.patient = factory.newRelationship('com.depa.blockchain.core', 'Patient', 'alice@phr-app.com');
+        vaccinationAsset.healthCareProvider = factory.newRelationship('com.depa.blockchain.core', 'HealthCareProvider', 'hcp:bpk');
+
+        let createVaccinationTx = factory.newTransaction('com.depa.blockchain.core', 'CreateVaccination', 'txCreateVaccination2');
+        createVaccinationTx.protectedAsset = vaccinationAsset;
+
+        // Use the identity for Alice.
+        return useIdentity(bpkIdentity)
+            .then(() => {
+                return businessNetworkConnection.submitTransaction(createVaccinationTx);
+            }).then(() => {
+                return businessNetworkConnection.getAssetRegistry('com.depa.blockchain.assets.Vaccination');
+            }).then((assetRegistry) => {
+                return assetRegistry.getAll();
+            }).then((assets) => {
+                assets.should.have.lengthOf(0);
+            });
+    });
+
+    it('SS should be see two Alice\'s vaccination assets using her permission', () => {
+        // Use the identity for Alice.
+        return useIdentity(ssIdentity)
+            .then(() => {
+                // Get the assets.
+                return businessNetworkConnection.getAssetRegistry('com.depa.blockchain.assets.Vaccination')
+                    .then((assetRegistry) => {
+                        return assetRegistry.getAll();
+                    });
+            })
+            .then((assets) => {
+                console.log(assets);
+                assets.should.have.lengthOf(2);
             });
     });
 });
