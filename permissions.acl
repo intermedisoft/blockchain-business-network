@@ -38,7 +38,7 @@ rule PatientCannotMessWithOtherPatient {
   participant(p): "com.depa.blockchain.core.Patient"
   operation: ALL
   resource(r): "com.depa.blockchain.core.Patient"
-  condition: (p.patientId!=r.patientId)
+  condition: (p.patientId != r.patientId)
   action: DENY
 }
 
@@ -62,7 +62,7 @@ rule NoOneCanDeletePermissionLog {
   description: "No one can remove permission activity log"
   participant: "com.depa.blockchain.core.HealthCareProvider"
   operation: DELETE
-  resource: "com.depa.blockchain.core.Patient"
+  resource: "com.depa.blockchain.core.PermissionLog"
   action: DENY
 }
 

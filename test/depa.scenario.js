@@ -506,7 +506,6 @@ describe('DEPA-Blockchain-Scenario', () => {
                     });
             })
             .then((assets) => {
-                console.log(assets);
                 assets.should.have.lengthOf(2);
             });
     });
