@@ -70,12 +70,16 @@ asset PermissionLog identified by permissionLogId {
   o String permissionLogId
   o PermissionType permissionType
   o DateTime actionDateTime
+  o PermissionType patientResponseResult optional
+  o DateTime patientResponseDateTime optional
+  o DateTime patientAcknowledgeDateTime optional
 
   --> Patient patient
   --> HealthCareProvider healthCareProvider
 }
 
 enum PermissionType {
+  o NOOP
   o REQUEST
   o GRANT
   o DENY
@@ -89,6 +93,7 @@ transaction PermissionTransaction {
 }
 
 event PermissionEvent {
+  --> PermissionLog refPermissionLog
   --> Patient patient
   --> HealthCareProvider healthCareProvider
 }

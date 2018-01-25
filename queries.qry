@@ -1,3 +1,10 @@
+query listAllRequestWithNoResponse {
+  description: "List all REQUEST PermissionLog that not yet response."
+  statement:
+    SELECT com.depa.blockchain.core.PermissionLog 
+      WHERE (permissionType == 'REQUEST' AND patientResponseResult == 'NOOP' AND _$patientIdParam == patient AND _$hcpIdParam == healthCareProvider)
+}
+
 query listAllProtectedAssets {
   description: "List all protected assets"
   statement:
