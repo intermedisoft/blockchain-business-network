@@ -43,9 +43,9 @@ describe('Permission-Test-Scenario', () => {
     let bpkIdentity;
     let ssIdentity;
 
-    let aliceResource;
+    // let aliceResource;
     // let bobResource;
-    let bpkResource;
+    // let bpkResource;
     // let ssResource;
 
     // These are a list of receieved events.
@@ -116,7 +116,7 @@ describe('Permission-Test-Scenario', () => {
                 bob.surname = 'B.';
                 bob.dateTimeUpdate = new Date();
 
-                aliceResource = alice;
+                // aliceResource = alice;
                 // bobResource = bob;
 
                 return businessNetworkConnection.getParticipantRegistry('com.depa.blockchain.core.Patient')
@@ -136,7 +136,7 @@ describe('Permission-Test-Scenario', () => {
                 ss.healthCareProviderName = 'Pensook Clinic';
                 ss.dateTimeUpdate = new Date();
 
-                bpkResource = bpk;
+                // bpkResource = bpk;
                 // ssResource = ss;
 
                 return businessNetworkConnection.getParticipantRegistry('com.depa.blockchain.core.HealthCareProvider')
