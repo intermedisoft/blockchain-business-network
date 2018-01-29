@@ -85,3 +85,11 @@ asset Vaccination extends ProtectedAsset {
   o DateTime dateTimeServe
   o String numberOfBooster optional
 }
+
+asset Xray extends ProtectedAsset {
+  o String xrayName
+  o String xrayResult
+  o String xrayImage
+  o DateTime dateTimeService
+  o DateTime dateTimeUpdate
+}
