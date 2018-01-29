@@ -3,7 +3,7 @@ import com.depa.blockchain.core.*
 
 asset ProtectedAsset identified by assetId {
   o String assetId
-  o String[] authorized optional
+  --> HealthCareProvider[] authorized optional
   --> Patient patient
   --> HealthCareProvider healthCareProvider
 }

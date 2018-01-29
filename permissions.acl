@@ -20,7 +20,11 @@ rule HcpCanReadProtectedAssetsWithAuthorization {
   participant(p): "com.depa.blockchain.core.HealthCareProvider"
   operation: READ
   resource(r): "com.depa.blockchain.assets.*"
-  condition: (r.authorized && r.authorized.indexOf(p.getIdentifier()) > -1)
+  condition: (
+      r.authorized.some(function (hcp) {
+        return hcp.getIdentifier() === p.getIdentifier();  
+      })
+    )
   action: ALLOW
 }
 
@@ -29,7 +33,11 @@ rule HcpCanEditOwnProtectedAssetsWithAuthorization {
   participant(p): "com.depa.blockchain.core.HealthCareProvider"
   operation: UPDATE
   resource(r): "com.depa.blockchain.assets.*"
-  condition: (r.authorized && r.authorized.indexOf(p.getIdentifier()) > -1 && r.healthCareProvider.getIdentifier() == p.getIdentifier())
+  condition: (r.healthCareProvider.getIdentifier() == p.getIdentifier() &&
+      r.authorized.some(function (hcp) {
+        return hcp.getIdentifier() === p.getIdentifier();  
+      })
+    )
   action: ALLOW
 }
 
