@@ -21,7 +21,7 @@ rule HcpCanReadProtectedAssetsWithAuthorization {
   operation: READ
   resource(r): "com.depa.blockchain.assets.*"
   condition: (
-      r.authorized.some(function (hcp) {
+      r.patient.authorizedHcpPermissionRequest.some(function (hcp) {
         return hcp.getIdentifier() === p.getIdentifier();  
       })
     )
@@ -34,7 +34,7 @@ rule HcpCanEditOwnProtectedAssetsWithAuthorization {
   operation: UPDATE
   resource(r): "com.depa.blockchain.assets.*"
   condition: (r.healthCareProvider.getIdentifier() == p.getIdentifier() &&
-      r.authorized.some(function (hcp) {
+      r.patient.authorizedHcpPermissionRequest.some(function (hcp) {
         return hcp.getIdentifier() === p.getIdentifier();  
       })
     )

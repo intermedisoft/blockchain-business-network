@@ -351,16 +351,14 @@ describe('DEPA-Blockchain-Scenario', () => {
         vaccinationAsset.patient = factory.newRelationship('com.depa.blockchain.core', 'Patient', 'alice@phr-app.com');
         vaccinationAsset.healthCareProvider = factory.newRelationship('com.depa.blockchain.core', 'HealthCareProvider', 'hcp:bpk');
 
-        let createVaccinationTx = factory.newTransaction('com.depa.blockchain.core', 'CreateVaccination', 'txCreateVaccination1');
-        createVaccinationTx.protectedAsset = vaccinationAsset;
-
-        // Use the identity for Alice.
+        let assetRegistry = null;
         return useIdentity(bpkIdentity)
             .then(() => {
-                return businessNetworkConnection.submitTransaction(createVaccinationTx);
-            }).then(() => {
                 return businessNetworkConnection.getAssetRegistry('com.depa.blockchain.assets.Vaccination');
-            }).then((assetRegistry) => {
+            }).then((_assetRegistry) => {
+                assetRegistry = _assetRegistry;
+                return assetRegistry.add(vaccinationAsset);
+            }).then(() => {
                 return assetRegistry.getAll();
             }).then((assets) => {
                 assets.should.have.lengthOf(1);
@@ -479,16 +477,14 @@ describe('DEPA-Blockchain-Scenario', () => {
         vaccinationAsset.patient = factory.newRelationship('com.depa.blockchain.core', 'Patient', 'alice@phr-app.com');
         vaccinationAsset.healthCareProvider = factory.newRelationship('com.depa.blockchain.core', 'HealthCareProvider', 'hcp:bpk');
 
-        let createVaccinationTx = factory.newTransaction('com.depa.blockchain.core', 'CreateVaccination', 'txCreateVaccination2');
-        createVaccinationTx.protectedAsset = vaccinationAsset;
-
-        // Use the identity for Alice.
+        let assetRegistry = null;
         return useIdentity(bpkIdentity)
             .then(() => {
-                return businessNetworkConnection.submitTransaction(createVaccinationTx);
-            }).then(() => {
                 return businessNetworkConnection.getAssetRegistry('com.depa.blockchain.assets.Vaccination');
-            }).then((assetRegistry) => {
+            }).then((_assetRegistry) => {
+                assetRegistry = _assetRegistry;
+                return assetRegistry.add(vaccinationAsset);
+            }).then(() => {
                 return assetRegistry.getAll();
             }).then((assets) => {
                 assets.should.have.lengthOf(0);
