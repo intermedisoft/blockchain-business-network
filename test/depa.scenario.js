@@ -129,7 +129,7 @@ describe('DEPA-Blockchain-Scenario', () => {
             .then(() => {
                 // Create the assets.
                 const asset1 = factory.newResource('com.depa.blockchain.assets', 'CheckupHistory', 'testCheckupHistory:1');
-                asset1.checkupHistoryId = 'chk0000071';
+                asset1.checkupHistoryId = 'chk-test-001';
                 asset1.dateTimeServe = '2016-03-23T15:54:47';
                 asset1.pulse = '81';
                 asset1.pressure = '116/93';
@@ -154,12 +154,12 @@ describe('DEPA-Blockchain-Scenario', () => {
                 asset1.lym = '34';
                 asset1.mono = '11';
                 asset1.dateTimeUpdate = '2016-03-23T15:54:47';
-                asset1.assetId = 'assetId00071';
+                asset1.assetId = 'assetId-test-001';
                 asset1.patient = factory.newRelationship('com.depa.blockchain.core', 'Patient', 'alice@phr-app.com');
                 asset1.healthCareProvider = factory.newRelationship('com.depa.blockchain.core', 'HealthCareProvider', 'hcp:bpk');
 
                 const asset2 = factory.newResource('com.depa.blockchain.assets', 'CheckupHistory', 'testCheckupHistory:2');
-                asset2.checkupHistoryId = 'chk0000072';
+                asset2.checkupHistoryId = 'chk-test-002';
                 asset2.dateTimeServe = '2016-03-23T15:54:47';
                 asset2.pulse = '81';
                 asset2.pressure = '116/93';
@@ -330,20 +330,7 @@ describe('DEPA-Blockchain-Scenario', () => {
             });
     });
 
-    /*it('current Alice status', () => {
-        // Use the identity for Alice.
-        return useIdentity(aliceIdentity)
-            .then(() => {
-                return businessNetworkConnection.getParticipantRegistry('com.depa.blockchain.core.Patient');
-            }).then((participantRegistry) => {
-                return participantRegistry.get('alice@phr-app.com');
-            }).then((alice) => {
-                // console.log(alice);
-                alice.should.ok;
-            });
-    });*/
-
-    it('BPK should be able to run CreateVaccination TX on Alice', () => {
+    it('BPK should be able to create Vaccination record on Alice', () => {
         let vaccinationAsset = factory.newResource('com.depa.blockchain.assets', 'Vaccination', 'testVaccination:1');
         vaccinationAsset.vaccineName = 'Vaccine #1';
         vaccinationAsset.vaccineType = 'VaccineType #1';
@@ -362,6 +349,55 @@ describe('DEPA-Blockchain-Scenario', () => {
                 return assetRegistry.getAll();
             }).then((assets) => {
                 assets.should.have.lengthOf(1);
+            });
+    });
+
+    it('BPK should be able to run CheckupResultProduced TX on Alice', () => {
+        let checkupHistoryAsset = factory.newResource('com.depa.blockchain.assets', 'CheckupHistory', 'testCheckupHistory:3');
+        checkupHistoryAsset.checkupHistoryId = 'chk-test-003';
+        checkupHistoryAsset.dateTimeServe = '2016-03-23T15:54:47';
+        checkupHistoryAsset.pulse = '81';
+        checkupHistoryAsset.pressure = '116/93';
+        checkupHistoryAsset.cbc_wbc = '7.2';
+        checkupHistoryAsset.hct = '43.6';
+        checkupHistoryAsset.hb = '14.8';
+        checkupHistoryAsset.ph = '6';
+        checkupHistoryAsset.rbc = '5.07';
+        checkupHistoryAsset.sugar = 'Negative';
+        checkupHistoryAsset.spgr = '1.03';
+        checkupHistoryAsset.fbs = '110';
+        checkupHistoryAsset.bun = '9';
+        checkupHistoryAsset.creatinine = '1.03';
+        checkupHistoryAsset.uric = '';
+        checkupHistoryAsset.chlt = '222';
+        checkupHistoryAsset.trig = '278';
+        checkupHistoryAsset.hdl = '';
+        checkupHistoryAsset.ldl = '';
+        checkupHistoryAsset.sgot = '59';
+        checkupHistoryAsset.sgpt = '26';
+        checkupHistoryAsset.eos = '0';
+        checkupHistoryAsset.lym = '34';
+        checkupHistoryAsset.mono = '11';
+        checkupHistoryAsset.dateTimeUpdate = '2016-03-23T15:54:47';
+        checkupHistoryAsset.assetId = 'assetId00071';
+        checkupHistoryAsset.patient = factory.newRelationship('com.depa.blockchain.core', 'Patient', 'alice@phr-app.com');
+        checkupHistoryAsset.healthCareProvider = factory.newRelationship('com.depa.blockchain.core', 'HealthCareProvider', 'hcp:bpk');
+
+        let checkupResultProducedTx = factory.newTransaction('com.depa.blockchain.core', 'CheckupResultProducedTransaction', 'txCheckupResultProduced:1');
+        checkupResultProducedTx.checkupHistory = checkupHistoryAsset;
+
+        return useIdentity(bpkIdentity)
+            .then(() => {
+                return businessNetworkConnection.submitTransaction(checkupResultProducedTx);
+            }).then(() => {
+                return businessNetworkConnection.getAssetRegistry('com.depa.blockchain.assets.CheckupHistory');
+            }).then((assetRegistry) => {
+                return assetRegistry.getAll();
+            }).then((assets) => {
+                assets.should.have.lengthOf(3);
+            }).catch((err) => {
+                console.log(err);
+                throw err;
             });
     });
 
@@ -469,7 +505,7 @@ describe('DEPA-Blockchain-Scenario', () => {
             });
     });
 
-    it('BPK should be able to submit late CreateVaccination TX on Alice without her permission', () => {
+    it('BPK should be able to submit late Vaccination record for Alice without her permission', () => {
         let vaccinationAsset = factory.newResource('com.depa.blockchain.assets', 'Vaccination', 'testVaccination:2');
         vaccinationAsset.vaccineName = 'Vaccine #2';
         vaccinationAsset.vaccineType = 'VaccineType #2';

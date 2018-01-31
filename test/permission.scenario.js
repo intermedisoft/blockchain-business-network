@@ -382,18 +382,6 @@ describe('Permission-Test-Scenario', () => {
             });
     });
 
-    // it('System\'s listAllRequestWithNoResponse query should has result length = 0', () => {
-    //     return useIdentity(aliceIdentity)
-    //         .then(() => {
-    //             return businessNetworkConnection.query('listAllRequestWithNoResponse', {
-    //                 patientIdParam: aliceResource.patientId,
-    //                 hcpIdParam: bpkResource.healthCareProviderId
-    //             });
-    //         }).then((assets) => {
-    //             assets.should.have.lengthOf(0);
-    //         });
-    // });
-
     it('System\'s should has two REQUEST and one GRANT PermissionLog', () => {
         return useIdentity(aliceIdentity)
             .then(() => {
