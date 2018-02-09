@@ -94,6 +94,7 @@ asset Xray extends ProtectedAsset {
   o String xrayImage optional
   o String conclusion optional
   o String recommendation optional
+  o DateTime patientAcknowledgeDateTime optional
   o DateTime dateTimeService
   o DateTime dateTimeUpdate
 }
