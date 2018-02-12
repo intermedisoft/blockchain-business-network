@@ -27,7 +27,7 @@ chai.use(require('chai-as-promised'));
 const bfs_fs = BrowserFS.BFSRequire('fs');
 
 const PROFILE_NAME = 'hlfv1';
-const NETWORK_NAME = 'my-network';
+const NETWORK_NAME = 'depa-blockchain-network';
 
 describe('DEPA-Blockchain-Scenario', () => {
 
