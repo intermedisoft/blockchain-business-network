@@ -1,7 +1,7 @@
 rule PatientCanReadTheirData {
   description: "Patient can read their data"
   participant(p): "com.depa.blockchain.core.Patient"
-  operation: READ, UPDATE
+  operation: READ, UPDATE, DELETE
   resource(r): "com.depa.blockchain.assets.*"
   condition: (r.patient.getIdentifier() == p.getIdentifier())
   action: ALLOW
@@ -46,7 +46,7 @@ rule PatientCannotMessWithOtherPatient {
   participant(p): "com.depa.blockchain.core.Patient"
   operation: ALL
   resource(r): "com.depa.blockchain.core.Patient"
-  condition: (p.patientId != r.patientId)
+  condition: (p.getIdentifier() != r.getIdentifier())
   action: DENY
 }
 
@@ -63,6 +63,24 @@ rule HcpCannotMessWithPatientGeneralData {
   participant: "com.depa.blockchain.core.HealthCareProvider"
   operation: CREATE, DELETE
   resource: "com.depa.blockchain.core.Patient"
+  action: DENY
+}
+
+rule NoPatientCanReadOthersPermissionLog {
+  description: "No one can remove permission activity log"
+  participant(p): "com.depa.blockchain.core.Patient"
+  operation: CREATE, READ, UPDATE, DELETE
+  resource(r): "com.depa.blockchain.core.PermissionLog"
+  condition: (p.getIdentifier() != r.patient.getIdentifier())
+  action: DENY
+}
+
+rule NoHcpCanReadOthersPermissionLog {
+  description: "No one can remove permission activity log"
+  participant(p): "com.depa.blockchain.core.HealthCareProvider"
+  operation: CREATE, READ, UPDATE, DELETE
+  resource(r): "com.depa.blockchain.core.PermissionLog"
+  condition: (p.getIdentifier() != r.healthCareProvider.getIdentifier())
   action: DENY
 }
 
